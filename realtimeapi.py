@@ -19,11 +19,11 @@ def fetch_data_from_api():
         return None
 
 # Set the end date and time (February 1, 2024, 00:00:00)
-end_datetime = pd.to_datetime("2024-02-01 00:00:00")
+end_datetime = pd.to_datetime("2024-01-25 00:00:00")
 
-columns = ["City", "State", "Country", "Latitude", "Longitude", "AQI (US)", "Main (US)", "AQI (CN)", "Main (CN)", "Timestamp", "Temperature", "Pressure", "Humidity", "Wind Speed", "Wind Direction", "Weather Icon"]
-data_df = pd.DataFrame(columns=columns)
-fetch_interval_seconds = 3600
+column = ["City", "State", "Country", "Latitude", "Longitude", "AQI (US)", "Main (US)", "AQI (CN)", "Main (CN)", "Timestamp", "Temperature", "Pressure", "Humidity", "Wind Speed", "Wind Direction", "Weather Icon"]
+data_df = pd.DataFrame(columns=column)
+fetch_interval_seconds = 60
 
 while pd.to_datetime("now") < end_datetime:
     data = fetch_data_from_api()
@@ -55,7 +55,7 @@ while pd.to_datetime("now") < end_datetime:
         }, ignore_index=True)
         print("Now Data : " , datetime.now() , '\n')
         print(data_df)
-        data_df.to_csv('AQI_PM2_5.csv', mode='a', index=False, header=not pd.DataFrame(columns=columns).empty)
+        data_df.to_csv('AQI_PM2_5.csv', columns = column)
 
     # Wait for the specified interval before making the next request
     time.sleep(fetch_interval_seconds)

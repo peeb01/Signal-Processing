@@ -1,0 +1,26 @@
+fig, axes = plt.subplots(2, 4, figsize=(12, 6))
+
+axes[0, 0].imshow(img1, cmap='gray')
+axes[0, 0].set_title('Happy')
+
+axes[0, 1].imshow(img2, cmap='gray')
+axes[0, 1].set_title('Anger')
+
+axes[0, 2].imshow(img3, cmap='gray')
+axes[0, 2].set_title('Disgust')
+
+axes[0, 3].imshow(img4, cmap='gray')
+axes[0, 3].set_title('Fear')
+
+axes[1, 0].imshow(img5, cmap='gray')
+axes[1, 0].set_title('Neutral')
+
+axes[1, 1].imshow(img6, cmap='gray')
+axes[1, 1].set_title('Sad')
+
+axes[1, 2].imshow(img7, cmap='gray')
+axes[1, 2].set_title('Surprise')
+
+axes[1, 3].axis('off')
+
+plt.show()

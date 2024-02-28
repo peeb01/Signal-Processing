@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import pprint
+import pandas as pd
 # from numpy.linalg import inv
 
 img1 = mpimg.imread('Image\\happyCK.png')
@@ -76,13 +77,13 @@ def calculate_angle(diff_T, diff):
     return angles
 
 # Calculate angles in radian
-theta1 = calculate_angle(diff1_T, diff1)
-theta2 = calculate_angle(diff2_T, diff2)
-theta3 = calculate_angle(diff3_T, diff3)
-theta4 = calculate_angle(diff4_T, diff4)
-theta5 = calculate_angle(diff5_T, diff5)
-theta6 = calculate_angle(diff6_T, diff6)
-theta7 = calculate_angle(diff7_T, diff7)
+theta1 = calculate_angle(diff1_T, diff1)*180/np.pi
+theta2 = calculate_angle(diff2_T, diff2)*180/np.pi
+theta3 = calculate_angle(diff3_T, diff3)*180/np.pi
+theta4 = calculate_angle(diff4_T, diff4)*180/np.pi
+theta5 = calculate_angle(diff5_T, diff5)*180/np.pi
+theta6 = calculate_angle(diff6_T, diff6)*180/np.pi
+theta7 = calculate_angle(diff7_T, diff7)*180/np.pi
 
 # print(np.max(theta1).flatten())
 
@@ -95,13 +96,14 @@ theta7 = calculate_angle(diff7_T, diff7)
 """
 find grad Vector = |Grad|e^jtheta
 """
-Vec1 = (grad_1*np.exp(1j*theta1))
-Vec2 = (grad_2*np.exp(1j*theta2))
-Vec3 = (grad_3*np.exp(1j*theta3))
-Vec4 = (grad_4*np.exp(1j*theta4))
-Vec5 = (grad_5*np.exp(1j*theta5))
-Vec6 = (grad_6*np.exp(1j*theta6))
-Vec7 = (grad_7*np.exp(1j*theta7))
+Vec1 = (grad_1*np.exp(1j*theta1*np.pi/180))
+Vec2 = (grad_2*np.exp(1j*theta2*np.pi/180))
+Vec3 = (grad_3*np.exp(1j*theta3*np.pi/180))
+Vec4 = (grad_4*np.exp(1j*theta4*np.pi/180))
+Vec5 = (grad_5*np.exp(1j*theta5*np.pi/180))
+Vec6 = (grad_6*np.exp(1j*theta6*np.pi/180))
+Vec7 = (grad_7*np.exp(1j*theta7*np.pi/180))
+
 
 imggr1 = np.real(Vec1)
 imggr2 = np.real(Vec2)
@@ -146,47 +148,142 @@ data5 = data5[data5[:,0].argsort()]
 data6 = data6[data6[:,0].argsort()]
 data7 = data7[data7[:,0].argsort()]
 
+data1[:, 0] = data1[:, 0].astype(np.int64)
+data2[:, 0] = data2[:, 0].astype(np.int64)
+data3[:, 0] = data3[:, 0].astype(np.int64)
+data4[:, 0] = data4[:, 0].astype(np.int64)
+data5[:, 0] = data5[:, 0].astype(np.int64)
+data6[:, 0] = data6[:, 0].astype(np.int64)
+data7[:, 0] = data7[:, 0].astype(np.int64)
+
+# print(pd.DataFrame(data1))
+
+
+df1 = pd.DataFrame(data1[:,1])
+df2 = pd.DataFrame(data2[:,1])
+df3 = pd.DataFrame(data3[:,1])
+df4 = pd.DataFrame(data4[:,1])
+df5 = pd.DataFrame(data5[:,1])
+df6 = pd.DataFrame(data6[:,1])
+df7 = pd.DataFrame(data7[:,1])
+
+
+df = pd.concat([df1, df2, df3, df4, df5, df6, df7], axis=1)
+
+thes = np.array([i for i in range(-89, 90)])
+# # print(thes)
+M1 = []
+M2 = []
+M3 = []
+M4 = []
+M5 = []
+M6 = []
+M7 = []
+
+for i in thes:
+    dt1 = data1[data1[:, 0] == i]
+    if dt1.size == 0:  # Check if dt1 is empty
+        ave1 = 0
+    else:
+        ave1 = np.mean(dt1[:, 1])
+    M1.append(ave1)
+    
+    dt2 = data2[data2[:, 0] == i]
+    if dt2.size == 0:  # Check if dt2 is empty
+        ave2 = 0
+    else:
+        ave2 = np.mean(dt2[:, 1])
+    M2.append(ave2)
+    
+    dt3 = data3[data3[:, 0] == i]
+    if dt3.size == 0:  # Check if dt3 is empty
+        ave3 = 0
+    else:
+        ave3 = np.mean(dt3[:, 1])
+    M3.append(ave3)
+    
+    dt4 = data4[data4[:, 0] == i]
+    if dt4.size == 0:  # Check if dt4 is empty
+        ave4 = 0
+    else:
+        ave4 = np.mean(dt4[:, 1])
+    M4.append(ave4)
+    
+    dt5 = data5[data5[:, 0] == i]
+    if dt5.size == 0:  # Check if dt5 is empty
+        ave5 = 0
+    else:
+        ave5 = np.mean(dt5[:, 1])
+    M5.append(ave5)
+    
+    dt6 = data6[data6[:, 0] == i]
+    if dt6.size == 0:  # Check if dt6 is empty
+        ave6 = 0
+    else:
+        ave6 = np.mean(dt6[:, 1])
+    M6.append(ave6)
+    
+    dt7 = data7[data7[:, 0] == i]
+    if dt7.size == 0:  # Check if dt7 is empty
+        ave7 = 0
+    else:
+        ave7 = np.mean(dt7[:, 1])
+    M7.append(ave7)
+
+df = pd.DataFrame({'L1': M1, 
+      'L2': M2, 
+      'L3': M3,
+      'L4': M4,
+      'L5': M5,
+      'L6': M6,
+      'L7': M7
+      })
+
+lst = []
+for i in range(len(df)):
+    max = df.iloc[i, :].argmax()
+    lst.append(max)
+
+print(lst)
 
 plt.figure(figsize=(12,5))
 
-# plt.plot(data1[:,0]*180/np.pi, data1[:,1], label='happy')
-# plt.plot(data2[:,0]*180/np.pi, data2[:,1], label='anger')
-# plt.plot(data3[:,0]*180/np.pi, data3[:,1], label='disgust')
-# plt.plot(data4[:,0]*180/np.pi, data4[:,1], label='fear')
-# plt.plot(data5[:,0]*180/np.pi, data5[:,1], label='neutral')
-# plt.plot(data6[:,0]*180/np.pi, data6[:,1], label='sad')
-# plt.plot(data7[:,0]*180/np.pi, data7[:,1], label='surprise')
+plt.plot(data1[:,0], data1[:,1], label='happy')
+plt.plot(data2[:,0], data2[:,1], label='anger')
+plt.plot(data3[:,0], data3[:,1], label='disgust')
+plt.plot(data4[:,0], data4[:,1], label='fear')
+plt.plot(data5[:,0], data5[:,1], label='neutral')
+plt.plot(data6[:,0], data6[:,1], label='sad')
+plt.plot(data7[:,0], data7[:,1], label='surprise')
 
+# fig, axes = plt.subplots(7, 1, figsize=(8, 12))
 
+# axes[0].plot(data1[:, 0], data1[:, 1])
+# axes[0].set_title('happy')
 
-fig, axes = plt.subplots(7, 1, figsize=(8, 12))
+# axes[1].plot(data2[:, 0], data2[:, 1])
+# axes[1].set_title('anger')
 
-axes[0].plot(data1[:, 0], data1[:, 1])
-axes[0].set_title('happy')
+# axes[2].plot(data3[:, 0], data3[:, 1])
+# axes[2].set_title('disgust')
 
-axes[1].plot(data2[:, 0], data2[:, 1])
-axes[1].set_title('anger')
+# axes[3].plot(data4[:, 0], data4[:, 1])
+# axes[3].set_title('fear')
 
-axes[2].plot(data3[:, 0], data3[:, 1])
-axes[2].set_title('disgust')
+# axes[4].plot(data5[:, 0], data5[:, 1])
+# axes[4].set_title('neutral')
 
-axes[3].plot(data4[:, 0], data4[:, 1])
-axes[3].set_title('fear')
+# axes[5].plot(data6[:, 0], data6[:, 1])
+# axes[5].set_title('sad')
 
-axes[4].plot(data5[:, 0], data5[:, 1])
-axes[4].set_title('neutral')
+# axes[6].plot(data7[:, 0], data7[:, 1])
+# axes[6].set_title('surprise')
 
-axes[5].plot(data6[:, 0], data6[:, 1])
-axes[5].set_title('sad')
-
-axes[6].plot(data7[:, 0], data7[:, 1])
-axes[6].set_title('surprise')
-
-plt.xlabel('Angle (theta) radiant')
-plt.ylabel('Real Part of Vector')
-plt.tight_layout()
-plt.savefig('Grad.png')
-plt.show()
+# plt.xlabel('Angle (theta) radiant')
+# plt.ylabel('Real Part of Vector')
+# plt.tight_layout()
+# plt.savefig('Grad.png')
+# plt.show()
 
 
 
@@ -198,9 +295,9 @@ plt.show()
 # plt.plot(grad_6.flatten(), label='sad')
 # plt.plot(grad_7.flatten(), label='surprise')
 
-# plt.xlabel('Angle (theta) Degree')
-# plt.ylabel('Real Part of Gradiant')
-# plt.legend()
-# # plt.savefig('grad2.png')
-# plt.show()
+plt.xlabel('Angle (theta) Degree')
+plt.ylabel('Real Part of Gradiant')
+plt.legend()
+# plt.savefig('grad2.png')
+plt.show()
 

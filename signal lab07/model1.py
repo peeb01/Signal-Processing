@@ -6,16 +6,16 @@ from numpy.linalg import inv, norm
 
 import matplotlib.image as mpimg
 img1 = mpimg.imread('happyCK.png').flatten()
-img2 = mpimg.imread('angerCK.png').flatten()
-img3 = mpimg.imread('disgustCK.png').flatten()
-img4 = mpimg.imread('fearCK.png').flatten()
-img5 = mpimg.imread('neutralCK.png').flatten()
-img6 = mpimg.imread('sadCK.png').flatten()
-img7 = mpimg.imread('surpriseCK.png').flatten()
-
+img2 = mpimg.imread('angerCK.png')
+img3 = mpimg.imread('disgustCK.png')
+img4 = mpimg.imread('fearCK.png')
+img5 = mpimg.imread('neutralCK.png')
+img6 = mpimg.imread('sadCK.png')
+img7 = mpimg.imread('surpriseCK.png')
+img_test = mpimg.imread('testB.png')
 
 # imgs = np.array([img1, img2, img3, img4, img5, img6, img7])
-print('\n',img1, '\n')
+# print('\n',img_test, '\n')
 
 stext =     ''' Create Matrix ==> R.A = S\n\n
         Matrix R : 2x2\n
@@ -23,7 +23,7 @@ stext =     ''' Create Matrix ==> R.A = S\n\n
         Matrix A = R^-1 . S
     '''
 
-def create_matrix(img):
+def create_max(img):
     N = len(img)
     n = np.arange(1,N+1)
     # print(len(n) == N) # True
@@ -33,38 +33,69 @@ def create_matrix(img):
     A = np.dot(inv(R), S)
     return A    
 
+def create_matrix(img):
+    Ax = []
+
+    for i in range(len(img)):
+        N = len(img[i])
+        n = np.arange(1, N+1)
+        R = np.array([[N, np.sum(n)], [np.sum(n), np.sum(n**2)]])
+        ns = np.array([n[i]*img[i] for i in range(N)])
+        S = np.array([[np.sum(img[i])], [np.sum(ns)]])
+        A = np.dot(inv(R), S)
+        Ax.append(A)
+    return np.array(Ax)
+
+# xx = create_mx(img1)
+# print(xx)
+
 
 n = np.arange(1, len(img1)+1)
 
 
 
-[a1, b1] = create_matrix(img1)
-y1 = a1 + b1*n
-[a2, b2] = create_matrix(img2)
-y2 = a2 + b2*n
-[a3, b3] = create_matrix(img3)
-y3 = a3 + b3*n
-[a4, b4] = create_matrix(img4)
-y4 = a4 + b4*n
-[a5, b5] = create_matrix(img5)
-y5 = a5 + b5*n
-[a6, b6] = create_matrix(img6)
-y6 = a6 + b6*n
-[a7, b7] = create_matrix(img7)
-y7 = a7 + b7*n
+A1 = create_matrix(img1)
+
+A2 = create_matrix(img2)
+
+A3 = create_matrix(img3)
+
+A4 = create_matrix(img4)
+
+A5 = create_matrix(img5)
+
+A6 = create_matrix(img6)
+
+A7 = create_matrix(img7)
+
+At = create_matrix(img_test)
+
+print(np.max(A1 - A2, axis=0))
+
+# y1 = a1 + b1*n
+# y2 = a2 + b2*n
+# y3 = a3 + b3*n
+# y4 = a4 + b4*n
+# y5 = a5 + b5*n
+# y6 = a6 + b6*n
+# y7 = a7 + b7*n
+# y_test = a_test + b_test*n
 
 
-plt.figure(figsize=(12,7))
-plt.plot(y1, label = 'happy')
-plt.plot(y2, label = 'anger')
-plt.plot(y3, label = 'disgust')
-plt.plot(y4, label = 'fear')
-plt.plot(y5, label = 'neutral')
-plt.plot(y6, label = 'sad')
-plt.plot(y7, label = 'surprise')
-# plt.title('A regression between hap, ang, dis, fea, neu, sad, sur')
 
-plt.legend()
-plt.savefig('LinearNH21.png')
-plt.show()
+
+# plt.figure(figsize=(12,7))
+# plt.plot(y1, label = 'happy')
+# plt.plot(y2, label = 'anger')
+# plt.plot(y3, label = 'disgust')
+# plt.plot(y4, label = 'fear')
+# plt.plot(y5, label = 'neutral')
+# plt.plot(y6, label = 'sad')
+# plt.plot(y7, label = 'surprise')
+# plt.scatter(n, y_test, label = 'y_Test')
+# # plt.title('A regression between hap, ang, dis, fea, neu, sad, sur')
+
+# plt.legend()
+# # plt.savefig('LinearNH21.png')
+# plt.show()
 

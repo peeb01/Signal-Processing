@@ -11,7 +11,7 @@ img4 = mpimg.imread('fearCK.png').T.flatten()
 img5 = mpimg.imread('neutralCK.png').T.flatten()
 img6 = mpimg.imread('sadCK.png').T.flatten()
 img7 = mpimg.imread('surpriseCK.png').T.flatten()
-
+img_test = mpimg.imread('testB.png').flatten()
 
 def create_matrix(img):
     N = len(img)
@@ -24,6 +24,7 @@ def create_matrix(img):
 
     # Martix S
     # n.s[n]
+    print(inv(R))
     ns = np.array([n*data for data in img])
     S = np.array([[np.sum(img)], [np.sum(ns)]])
 
@@ -48,6 +49,8 @@ y5 = a5 + b5*n
 y6 = a6 + b6*n
 [a7, b7] = create_matrix(img7)
 y7 = a7 + b7*n
+[a_test, b_test] = create_matrix(img_test)
+y_test = a_test + b_test*n
 
 
 plt.figure()
@@ -58,7 +61,7 @@ plt.plot(y4, label = 'fear')
 plt.plot(y5, label = 'neutral')
 plt.plot(y6, label = 'sad')
 plt.plot(y7, label = 'surprise')
-
+plt.scatter(n, y_test, label = 'y_Test')
 plt.legend()
 # plt.savefig('LinearT.png')
 plt.show()

@@ -244,7 +244,51 @@ for i in range(len(df)):
     max = df.iloc[i, :].argmax()
     lst.append(max)
 
-print(lst)
+lst = lst + [0]
+print(len(lst))
+arr = np.array(lst)
+arr = arr.reshape((36, 5))
+
+def mode_of_row(row):
+    unique_values, counts = np.unique(row, return_counts=True)
+    mode_index = np.argmax(counts)
+    return unique_values[mode_index]
+
+# Find the mode of each row
+# modes = np.apply_along_axis(mode_of_row, axis=1, arr=arr)
+# for i in modes:
+#     if i == 0 :
+#         print('Happy')
+#     if i == 1 :
+#         print('Anger')
+#     if i == 2:
+#         print('Disgusting')
+#     if i ==3 :
+#         print('Fear')
+#     if i == 4 :
+#         print('Neutral')
+#     if i == 5 :
+#         print('Sad')
+#     if i == 6:
+#         print('Surprise')
+dics = {
+    'Happy': 0,
+    'Anger': 1,
+    'Disgusting': 2,
+    'Fear': 3,
+    'Neutral': 4,
+    'Sad': 5,
+    'Surprise': 6
+}
+
+
+# img1 = mpimg.imread('Image\\happyCK.png')
+# img2 = mpimg.imread('Image\\angerCK.png')
+# img3 = mpimg.imread('Image\\disgustCK.png')
+# img4 = mpimg.imread('Image\\fearCK.png')
+# img5 = mpimg.imread('Image\\neutralCK.png')
+# img6 = mpimg.imread('Image\\sadCK.png')
+# img7 = mpimg.imread('Image\\surpriseCK.png')
 
 plt.figure(figsize=(12,5))
 
@@ -298,6 +342,6 @@ plt.plot(data7[:,0], data7[:,1], label='surprise')
 plt.xlabel('Angle (theta) Degree')
 plt.ylabel('Real Part of Gradiant')
 plt.legend()
-# plt.savefig('grad2.png')
+# plt.savefig('grad21.png')
 plt.show()
 

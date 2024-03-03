@@ -1,14 +1,6 @@
-import qrcode
+link = "https://github.com/peeb01/Signal-Processing/tree/main/LAB8"
 
-link = "https://example.com"
+import segno
 
-qr = qrcode.QRCode(
-    version=1,
-    error_correction=qrcode.constants.ERROR_CORRECT_L,
-    box_size=10,
-    border=4,
-)
-qr.add_data(link)
-qr.make(fit=True)
-img = qr.make_image(fill_color="black", back_color="white")
-img.save("qrcode.png")
+qrcode = segno.make_qr(link)
+qrcode.save("qrcode.png", scale=15)

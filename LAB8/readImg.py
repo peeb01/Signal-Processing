@@ -38,6 +38,9 @@ diff5 = np.diff(img5_)
 diff6 = np.diff(img6_)
 diff7 = np.diff(img7_)
 
+print(diff1.shape)
+
+
 img1_t = np.concatenate((zeros, img1.T), axis=1)
 img2_t = np.concatenate((zeros, img2.T), axis=1)
 img3_t = np.concatenate((zeros, img3.T), axis=1)
@@ -115,10 +118,10 @@ imggr7 = np.real(Vec7)
 
 # plt.imshow(img1, cmap='gray')
 # plt.show()
-# plt.imshow(grad_1, cmap='gray')
-# plt.show()
-# plt.imshow(imggr1, cmap='gray')
-# plt.show()
+plt.imshow(grad_1, cmap='gray')
+plt.show()
+plt.imshow(imggr1, cmap='gray')
+plt.show()
 
 Vec1 = Vec1.flatten()
 Vec2 = Vec2.flatten()

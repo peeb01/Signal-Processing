@@ -1,0 +1,16 @@
+import pandas as pd 
+
+df = pd.read_csv('Dublin_AQI.csv')
+print(df)
+
+df['Time'] = pd.to_datetime(df['Time'], format='%m/%d/%Y %H:%M')  # Added a missing slash in the date format
+df['New'] = df['Time'].dt.strftime('%d-%m')
+
+# Corrected the logical operator from 'and' to '&' for element-wise comparison
+df = df[(df['New'] <= '31-03') & (df['New'] >= '01-09')]  
+
+des = df.describe().transpose()
+print('Describe Data', des)  # Corrected the typo in the print statement
+
+
+# print(df[df['Time']])
